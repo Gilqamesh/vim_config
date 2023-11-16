@@ -1,0 +1,266 @@
+switch between modes:
+    insert:
+        i: move cursor back once
+        a: move cursor ahead once
+        I: move cursor at the beginning of the line
+        A: move cursor at the end of the line
+        o: open new line below
+        O: open new line above
+        s: substitute the current character
+        S: substitute the current line
+        r: substitute the current character and switch back to normal mode
+        R: substitute characters until switch back to normal mode
+
+     esc: normal mode
+
+     visual mode:
+        v: works on a character basis
+        V: works on a line basis
+          ex. v - start visual mode
+          use text movement command like 5e (move to the end of the 5th word counted from current position)
+          c - change text and switch to insert mode
+
+    visual block mode: to work on multiple lines in the same column
+        ctrl+q      change to visual block mode
+        shift+i     insert mode in visual block mode
+
+file:
+    :e[dit] <filename>                  if the file does not exist, it will be created the first time it is saved
+    :w[rite] [filename]                 write out to the file from RAM
+    :q[uit]                             quit window
+    :qa                                 quit all windows/tabs
+    :echo "text"                        echoes back stuff
+    :swapname                           displays the swap name of the opened file
+    :e <relative/absolute path>         open file, either relative to VIM current directory or absolute path
+    :cd <path>                          change VIM current directory
+    :pwd                                shows VIM current directory
+    :new                                creates new buffer
+    :so[urce] [path]                    load commands from file
+    ctrl+L                              redraw screen
+    vim -u none                         start vim without sourcing any plugins
+    $VIMRUNTIME                         runtime info, such as documentations and syntax highlighting
+    svn diff | vim -R -                 example on how to use vim for syntax highlighting, using pipe from another program, R here means read only, - means read from stdin
+    :! <shell-cmd>                      run shell commands inside of vim
+    :sh                                 run shell in current vim session
+    :Sex                                split and explore file system
+    :Vex                                vertical split and explore file system
+
+help:
+    :help <cmd/manual>    displays (if the documents are installed) manual
+    :helpgrep <text>            - search entire help documentation about some text
+        :cnext - next occurance
+        :cprev - prev occurance
+        :clist - all occurances
+    notation
+    keycodes
+    usr_toc (table of contents)
+    index (search for particular topic)
+    inserting
+    replacing
+    vim-modes-intro
+    mode-switching
+    word-motions
+    cursor-motions
+    object-motions
+    text-objects
+    various-motions
+    motion
+    abbreviation
+    user-manual
+    swap-file
+    mark-motions
+    :undolist
+    undo-redo
+    usr_32.txt
+    vimrc-intro        
+    pattern
+    folding
+    buffer-list
+    windows
+    tabpage
+    setting-guitablabel
+    function-list
+    feature-list
+    python-commands
+    group-name
+    write-compiler-plugin
+    quickfix
+    taglist-intro
+
+move cursor:
+    h                          move left once
+    j                          move down once
+    k                          move up once
+    l                          move right once
+    4j                         move down 4 times
+    w                          start of next word
+    e                          end of next word
+    b                          start of previous word
+    )                          start of next sentence
+    (                          start of previous sentence
+    }                          start of next paragraph
+    {                          start of previous paragraph
+    %                          go to matching paranthesis/bracket
+    3fh                        3rd occurance of the letter 'h'
+    ctrl+o                     jump back to previous location
+    ctrl+i                     jump forward to next location
+    ^                          start of line
+    $                          end of line
+    ctrl+b                     one screen backward
+    ctrl+f                     one screen forward
+    <number>G                  jump to line number, if number is not specified, jump to last line
+    gg                         jump to first line
+    <number>%                  jump to relative (to number of lines) line given in percentage, ex. 50% jumps to halfway of the file
+    H                          jump to first line of the window
+    M                          jump to middle line of the window
+    L                          jump to last line of the window
+    m<c>                       save mark at current cursor, character is in the range (a-zA-Z)
+    '<c>                       jump to line of mark
+    `<c>                       jump to line and col of mark 
+    :tag <name-of-tag>         jump to tag
+    ctrl+]                     jump to tag the cursor is on
+    ctrl+t                     jump back where we were before jumping to tag
+    ctrl+w ]                   jump to tag in split window
+
+    to generate tags, ctags works with c-files and automatically generates them, the tag file is read from the pwd
+
+buffer:
+    ctrl+]                     follow link, for example in :help topics (between two pipe symbols, for example |map|)
+    :b 1                       switch to buffer number 1
+    :buffers                   list opened buffers
+    :ls                        list opened buffers
+    :bd 1                      delete buffer number 1
+
+    buffers are automatically deleted when closing vim
+
+window:
+    ctrl+w <motion key>        switch between windows
+    ctrl+w ctrl+w              cycle between windows
+    :sp                        create horizontal split
+    ctrl+w s                   create horizontal split
+    :vsp                       create vertical split
+    ctrl+w v                   create vertical split
+    :q                         quit window
+    ctrl+w r                   rotate windows
+    ctrl+w K                   move current window to top-most position
+    :resize 10                 resize window to 10-lines long
+    ctrl+w _                   resize window to as big as possible
+    ctrl+w =                   resize windows to equal size
+    :only                      keep only current window open
+
+tabs:
+    :tabnew [filename]         open new tab with filename, opens file if exists
+    gt                         go to next tab
+    gT                         go to prev tab
+    :tabc                      close tab
+    :q                         close tab
+    :tab help <cmd>            open help manual in a new tab
+    :tabmove 0                 move current tab to position 0
+    :tabdo <operation>         do an operation on all opened tabs
+    :tabonly[!]                keep only current tab open (! to force close them, in case some are not saved)
+
+select:
+    (v) aw                     word
+    (v) ap                     paragraph
+    (v) ab                     block
+
+edit:
+    ~                          flip case of selected text
+    d                          delete
+    y                          copy (yank)
+    p                          paste after cursor
+    P                          paste before cursor
+    x                          delete char at cursor
+    u                          undo once
+    ctrl+r                     redo once
+    :%<operation>              operate on every lines, ex. :%d deletes every line, :%y yanks every line
+    :%s/<from>/<to>/g          search and replace
+
+    usually when we use an operation twice, it operates on the whole line
+      ex. dd - delete line
+          dl - delete 1 char to the right
+          yap - yank paragraph
+          xp - swap 2 chars (achieved by deleting char and then pasting after)
+          dwwP - swap 2 words (achieved by delete one word, then move to next word, then paste before)
+
+    :earlier <num[s/m]>        time travel back specified amount
+    :later <num[s/m]>          time travel forward specified amount
+    :undo <num>                undo num times
+    :undolist                  shows undo tree
+
+search:
+    n - go to next occurance
+      N - go to prev occurance
+    /something            - search for the first occurance of "something" in this case
+      /\<word\>            - the \< and \> indicates the start and end positions of "word" in this case
+    /\d                - digit
+    /\d\+                - 1 or more digits
+    /\d\*                - 0 or more digits
+    f<char>                - searches for the next character after the character in the line
+
+folding:
+    :set foldmethod=indent
+    (n) zc: folds text at cursor
+    (n) zo: open fold
+
+macros:
+    .       repeat last action
+    q<c>    start recording the macro named c
+    q       stop recording the macro
+    @<c>    apply macro named c
+
+scripting:
+    :colorscheme desert                        change color scheme
+    :echo <command/text>                        echoes the result of command or text
+        :echo strlen(getline(".")                echoes how many characters are in the current line
+        :let len = strlen(getline("."))                decl and init variable
+        :echo "We have" len "characters in this line."
+
+    :function F()
+    :    let len = strlen(getline("."))
+    :    return len
+    :endfunction
+
+    :call F()                            run F (does not display like echo)
+
+    :if has("gui_running")                        determine if specific feature is installed
+    :    colorscheme desert
+    :else
+    :    colorscheme darkblue
+    :endif
+
+    :let i = 0
+    :while i < 5
+    :    echo i
+    :    let i += 1
+    :endwhile
+
+    :for i in range(5)
+    :    echo i
+    :endfor
+
+    :let fruits = ['apply', 'mango', 'coconut']
+    
+    "Script to capitalize each word in a line
+    "make sure we run this script only once
+    if exists("loaded_capitalize")
+        finish
+    endif
+    let loaded_capitalize = 1
+    function Capitalize() range
+        for line_number in range(a:firstline, a:lastline)
+            let line_content = getline(line_number)
+            let line_content = substitute(line_content, "\\w\\+, "\\u\\0", "g")
+            call setline(line_number, line_content)
+        endfor
+    endfunction
+
+plugins: the following directories are located at %HOME%/vimfiles
+    /plugin        these files are automatically sourced upon startup of vim
+    /ftplugin      these files are file specific, that only work for a specific file format, based on this syntax is also set for the filetype
+    /syntax        these files define how the parts of the file relate to each other
+
+registers:
+    "<register><operation>
+    "*y            yank (copy) to system clipboard
+    "*p            put (paste) from system clipboard
